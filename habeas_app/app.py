@@ -1,6 +1,7 @@
 from flask import Flask, render_template,  request, make_response, send_file, send_from_directory, abort
 from fpdf import FPDF, HTMLMixin #para el pdf
 from datetime import date
+from poderdocx import creaPoder
 
 app = Flask(__name__)
 #pdf = FPDF('P', 'mm', 'letter') #
@@ -122,13 +123,13 @@ def form():
 
     return render_template("form.html", id_solicitante=id_solicitante, id_afectado=id_afectado, fecha= fecha, title = title, texto=texto, nom_solicitante = nom_solicitante, ciudad = ciudad, condi_solici = condi_solici, direccion_solicitante = direccion_solicitante , email_solicitante = email_solicitante, ced_solicitante = ced_solicitante, num_solicitante = num_solicitante, nom_afectado = nom_afectado, nom_autoridad = nom_autoridad, fecha_hechos = fecha_hechos, sujeto_ordeno = sujeto_ordeno, cargo_txt = cargo_txt, ced_afectado = ced_afectado, num_dias = num_dias, gen_afectado = gen_afectado, sitio = sitio , hechos = hechos)#, datoshabeas=datoshabeas.ciudad.data)
 
-@app.route('/download/<pdf_name>')
-def download_file(pdf_name):
+@app.route('/download/<file_name>')
+def download_file(file_name):
     path = r'/static/client/pdf'
     try:
-        return send_file(pdf_name, as_attachment=True)
+        return send_file(file_name, as_attachment=True)
     except FileNotFoundError:
-        abort(404, description=path+pdf_name+"Not Found")
+        abort(404, description=path+file_name+"Not Found")
 
 #=====================================PODER AUTOMATIZADO========================================
 @app.route('/poder', methods=['GET', 'POST'])  #ruta inicial y el metodo post es una forma de recibir la información
@@ -166,19 +167,16 @@ def form_poder():
 
     nom_contra = request.form.get('nom_contra').upper()
     gen_contra = request.form.get('gen_contra')
-    gen_contra = 'o' if gen_poder == 'm' else 'a'
+    gen_contra = 'o' if gen_contra == 'm' else 'a'
     id_contra = request.form.get('id_contra')
     ced_contra = request.form.get('ced_contra').replace('.','').replace(",","")
 
     print("Soy Email contra",request.form.get('email_contra'))
     if request.form.get('email_contra') != "":
         email_2 = request.form.get('email_contra').lower()
-        email_req = email_2
-        email_2 = f'''Con dirección de notificación electrónica: {email_req}.'''
+        email_2 = f', con dirección de notificación electrónica:\u00A0{email_2}.'
     else:
-        email_2 = ""
-
-
+        email_2 = "."
 
     if email_apo == 'civil':
         email_apo = 'conjurcivil@uexternado.edu.co'
@@ -193,101 +191,18 @@ def form_poder():
     elif email_apo_otro:
         if email_apo != None:
             email_apo= email_apo_otro
-    #---------------------------TEXTO--------------------------------------------
 
-    # poder =  f"""{nom_poder}, mayor de edad, domiciliad{gen_poder} en la ciudad de Bogotá D.C.,
-    # identificad{gen_poder} con cédula de ciudadanía número {id_poder} {ced_poder}, y dirección de notificación electrónica {email},
-    # por medio del presente escrito, otorgo PODER ESPECIAL, AMPLIO Y SUFICIENTE a {nom_apo},
-    # mayor de edad, domiciliad{gen_apo} en Bogotá D.C., identificad{gen_apo} con
-    # Cédula de Ciudadanía No. {id_apo} {ced_apo}, miembro activo del Consultorio Jurídico de la
-    # Universidad Externado de Colombia, portador{portadore} del carné No.{num_car} , con dirección de notificación electrónica {email_apo}.
-    # Con la finalidad de que en mi nombre y representación, inicie y lleve
-    # hasta su terminación el {tipo_proceso} contra el señor {nom_contra} ,
-    # mayor de edad, domiciliad{gen_contra} en Bogotá D.C.,
-    # identificad{gen_contra} con cédula de ciudadanía número{id_contra} {ced_contra}, con dirección de notificación electrónica
-    # {email_2}.
-    # Mi apoderad{gen_apo} queda facultad{gen_apo} para solicitar medidas cautelares,
-    # desistir, renunciar, sustituir, recibir, transigir,
-    # asumir el presente poder y demás facultades en los términos del artículo 77 del
-    # Código General del Proceso.
-    #
-    # Sírvase, Señor Juez, reconocerle personería jurídica a mi apoderad{gen_apo}, en los términos y para los efectos del presente poder.
-    #
-    # Señor Juez,
-    #
-    # {nom_poder}
-    # {id_poder} No. {ced_poder}
-    #
-    #
-    # Acepto,
-    #
-    #
-    # {nom_apo}
-    # {id_apo} No. {ced_apo}
-    # Carné No.{num_car}  del Consultorio Jurídico.
-    # Universidad Externado de Colombia - Sala Civil.
-    #
-    #
-    # """
-    poder = f"""
-<p><b>Se&ntilde;or, </b></p>
-<p ><b>Juez</b></p>
-<p ><b>E.&nbsp;&nbsp;&nbsp; S.&nbsp;&nbsp;&nbsp; D.</b></p>
-<br>
-<br>
-<br>
-<br>
-<p><b>REFERENCIA: </b>{tipo_proceso} de</p>
-<p><b>{nom_poder}</b> contra <b>{nom_contra}</b></p>
-<br><br><br><br><br>
-<p><b>{nom_poder}</b>, mayor de edad, domiciliad{gen_poder} en la ciudad de
-Bogot&aacute; D.C., identificad{gen_poder} con {id_poder} No. {ced_poder}, y direcci&oacute;n de notificaci&oacute;n
- electr&oacute;nica {email}, por medio del presente escrito, otorgo PODER
- ESPECIAL, AMPLIO Y SUFICIENTE a <b>{nom_apo}</b>, mayor de edad,
- domiciliad{gen_apo} en Bogot&aacute; D.C., identificad{gen_apo} con {id_apo}
- No. {ced_apo}, miembro activo del Consultorio Jur&iacute;dico de la Universidad
- Externado de Colombia, portador{portadore} del carn&eacute; No. {num_car},
- con direcci&oacute;n de notificaci&oacute;n electr&oacute;nica {email_apo}.
- Con la finalidad de que en mi nombre y representaci&oacute;n, inicie y lleve
- hasta su terminaci&oacute;n el {tipo_proceso} contra <b>{nom_contra}</b>,
- mayor de edad, domiciliad{gen_contra} en Bogot&aacute; D.C.,
- identificad{gen_contra} con {id_contra} No. {ced_contra}.
- {email_2}</p>
-<br>
-<p>Mi apoderad{gen_apo} queda facultad{gen_apo} para solicitar medidas cautelares, desistir, renunciar, sustituir, recibir, transigir, asumir el presente poder y dem&aacute;s facultades en los t&eacute;rminos del art&iacute;culo 77 del C&oacute;digo General del Proceso.</p>
-<br>
-<br>
-<p>S&iacute;rvase, Se&ntilde;or Juez, reconocerle personer&iacute;a jur&iacute;dica a mi apoderad{gen_apo}, en los t&eacute;rminos y para los efectos del presente poder.</p>
-<br>
-<p>Del Se&ntilde;or Juez,</p>
-<br>
-<br>
-<br>
-<br>
-<br>
-<p><b>{nom_poder}</b></p>
-<p>{id_poder} No. {ced_poder}</p>
-<br>
-<p>Acepto,</p>
-<br>
-<br>
-<br>
-<br>
-<br>
-<p><b>{nom_apo}</b></p>
-<p>{id_apo} No. {ced_apo}</p>
-<p>Carn&eacute; Consultorio : {num_car}</p>
-<p>Direcci&oacute;n de notificaci&oacute;n electr&oacute;nica: {email_apo}</p>"""
-
-    class MyFPDF(FPDF, HTMLMixin):
-        pass
-
-    pdf1 = MyFPDF()
-    pdf1.set_margins(left= 15.0, top=12.5, right=15.0)
-    pdf1.set_font('helvetica', 'B', 14)
-    pdf1.add_page()
-    pdf1.write_html(poder.replace("\n",""))
-    pdf1.output('poder_'+nom_apo[:4]+num_car[:-3]+'.pdf', 'F')
+    creaPoder(tipo_proceso=tipo_proceso,
+        nom_poder = nom_poder, email = email,
+        gen_poder = gen_poder, ced_poder = ced_poder,
+        id_poder = id_poder, nom_apo = nom_apo,
+        gen_apo = gen_apo,
+        portadore = portadore, email_apo = email_apo,
+        id_apo = id_apo, ced_apo = ced_apo,
+        nom_contra = nom_contra, id_contra = id_contra,
+        ced_contra = ced_contra, gen_contra = gen_contra,
+        email_2 = email_2, num_car = num_car,
+        email_apo_otro = None)
 
 
 
@@ -310,8 +225,6 @@ Bogot&aacute; D.C., identificad{gen_poder} con {id_poder} No. {ced_poder}, y dir
     id_contra = id_contra,
     ced_contra=ced_contra,
     email_2=email_2,
-
-
 
     )
 
