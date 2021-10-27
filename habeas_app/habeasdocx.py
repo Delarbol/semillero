@@ -70,7 +70,7 @@ def crea_habeas(id_solicitante,
     sin que haya sido indagada o resuelta su situación jurírdica.{nom_afectado}
     se encuentra recluid{gen_afectado} en {sitio}, desde el día {fecha_hechos}
     y el funcionario que ordenó; su aprehensión es {sujeto_ordeno} {cargo_txt}\n''')
-    p4.add_run(f'hechos')
+    p4.add_run(f'{hechos}')
     # =====================QUINTO PARRAFO=====================================
     p5 = doc.add_paragraph()
     p5.alignment = WD_ALIGN_PARAGRAPH.THAI_JUSTIFY
