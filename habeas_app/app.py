@@ -3,6 +3,7 @@ from fpdf import FPDF, HTMLMixin #para el pdf
 from datetime import date
 from poderdocx import creaPoder
 
+
 app = Flask(__name__)
 #pdf = FPDF('P', 'mm', 'letter') #
 
@@ -122,14 +123,17 @@ def form():
 
 
     return render_template("form.html", id_solicitante=id_solicitante, id_afectado=id_afectado, fecha= fecha, title = title, texto=texto, nom_solicitante = nom_solicitante, ciudad = ciudad, condi_solici = condi_solici, direccion_solicitante = direccion_solicitante , email_solicitante = email_solicitante, ced_solicitante = ced_solicitante, num_solicitante = num_solicitante, nom_afectado = nom_afectado, nom_autoridad = nom_autoridad, fecha_hechos = fecha_hechos, sujeto_ordeno = sujeto_ordeno, cargo_txt = cargo_txt, ced_afectado = ced_afectado, num_dias = num_dias, gen_afectado = gen_afectado, sitio = sitio , hechos = hechos)#, datoshabeas=datoshabeas.ciudad.data)
+app.config ["DOWNLOADS"] = "./downloads"
 
-@app.route('/download/<file_name>')
+@app.route('/downloads/<file_name>')
 def download_file(file_name):
-    path = r'/static/client/pdf'
+
     try:
-        return send_file(file_name, as_attachment=True)
+        return send_from_directory(app.config["DOWNLOADS"],
+                                    path = file_name,
+                                    as_attachment =True)
     except FileNotFoundError:
-        abort(404, description=path+file_name+"Not Found")
+        abort(404)
 
 #=====================================PODER AUTOMATIZADO========================================
 @app.route('/poder', methods=['GET', 'POST'])  #ruta inicial y el metodo post es una forma de recibir la información
@@ -177,20 +181,19 @@ def form_poder():
         email_2 = f', con dirección de notificación electrónica:\u00A0{email_2}.'
     else:
         email_2 = "."
+# Diccionario de correos
+    correos = { 'civil':'conjurcivil@uexternado.edu.co' ,
+                'economico':'conjureconomico@uexternado.edu.co',
+                'penal':'conjurpenal@uexternado.edu.co',
+                'publico':'conjurpublico@uexternado.edu.co',
+                'laboral': 'conjurlaboral@uexternado.edu.co'
+               }
 
-    if email_apo == 'civil':
-        email_apo = 'conjurcivil@uexternado.edu.co'
-    elif email_apo == 'economico':
-        email_apo = 'conjureconomico@uexternado.edu.co'
-    elif email_apo == 'penal':
-        email_apo = 'conjurpenal@uexternado.edu.co'
-    elif email_apo == 'publico':
-        email_apo='conjurpublico@uexternado.edu.co'
-    elif email_apo == 'laboral':
-        email_apo ='conjurlaboral@uexternado.edu.co'
-    elif email_apo_otro:
-        if email_apo != None:
-            email_apo= email_apo_otro
+    if email_apo_otro is not None and email_apo == '':
+        email_apo = email_apo_otro
+    else:
+        email_apo = correos[email_apo]
+
 
     creaPoder(tipo_proceso=tipo_proceso,
         nom_poder = nom_poder, email = email,
