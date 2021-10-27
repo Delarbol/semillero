@@ -17,7 +17,7 @@ def creaPoder(tipo_proceso, nom_poder, email, gen_poder, ced_poder, id_poder,
     #     print('Abrió el mismo')
     # except:
     doc = Document()
-    print('No lo logré')
+
 # ===================MÁRGENES=========================
     doc.sections[0].left_margin = Cm(2)
     doc.sections[0].top_margin = Cm(2)
