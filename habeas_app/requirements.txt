@@ -1,0 +1,10 @@
+click==8.0.3
+colorama==0.4.4
+Flask==2.0.2
+fpdf==1.7.2
+itsdangerous==2.0.1
+Jinja2==3.0.2
+lxml==4.6.3
+MarkupSafe==2.0.1
+python-docx==0.8.11
+Werkzeug==2.0.2
