@@ -1,7 +1,7 @@
-Artist: Bad Bunny f/ Diplo
+Artist: Bad Bunny 
 Album:  X 100PRE
 Song:   200 MPH
-Typed by: AZ Lyrics
+ 
 
 Ju-Ju!
 Yeh-yeah-yeah
@@ -65,7 +65,7 @@ Wouh!
 Artist: Bad Bunny
 Album:  X 100PRE
 Song:   Caro
-Typed by: AZ Lyrics
+ 
 
 Me ven y me preguntan por qué visto caro, eh
 ¿Tú no ves que yo soy caro?
@@ -146,7 +146,7 @@ Wuh
 Artist: Bad Bunny
 Album:  X 100PRE
 Song:   Como Antes
-Typed by: AZ Lyrics
+ 
 
 Yeh-yeh-yeh-yeh, ey
 
@@ -213,7 +213,7 @@ Nada es como antes)
 Artist: Bad Bunny
 Album:  X 100PRE
 Song:   Cuando Perriabas
-Typed by: AZ Lyrics
+ 
 
 Yeah-yeah-yeah
 Yeah
@@ -286,7 +286,7 @@ Mueve más lento, mueve más lento, mueve más lento, mueve más lento, mueve m�
 Artist: Bad Bunny
 Album:  X 100PRE
 Song:   Estamos Bien
-Typed by: AZ Lyrics
+ 
 
 Estamos bien, yeh
 Sobran los billetes de cien, yeah
@@ -350,7 +350,7 @@ No te preocupes estamos bien
 Artist: Bad Bunny f/ El Alfa
 Album:  X 100PRE
 Song:   La Romana
-Typed by: AZ Lyrics
+ 
 
 [Bad Bunny]
 Yeh, yeh, yeh
@@ -482,7 +482,7 @@ El Alfa El Jefe, la planta, la bestia, the best
 Artist: Bad Bunny
 Album:  X 100PRE
 Song:   Ni Bien Ni Mal
-Typed by: AZ Lyrics
+ 
 
 Yeh-yeh
 Yeh-yeh
@@ -554,7 +554,7 @@ Pa' no pensar en ti tengo que fumar
 Artist: Bad Bunny
 Album:  X 100PRE
 Song:   Otra Noche En Miami
-Typed by: AZ Lyrics
+ 
 
 Yeh, yeh
 
@@ -623,7 +623,7 @@ Otra noche sin ti (Otra noche sin ti, yeh)
 Artist: Bad Bunny
 Album:  X 100PRE
 Song:   RLNDT
-Typed by: AZ Lyrics
+ 
 
 (Hola, ¿quién soy? No sé, se me olvidó
 Hola, ¿quién soy? No sé, se me olvidó
@@ -681,7 +681,7 @@ Hola, ¿quién soy? Siempre he sido yo, yo-yo
 Artist: Bad Bunny
 Album:  X 100PRE
 Song:   Ser Bichote
-Typed by: AZ Lyrics
+ 
 
 Eh, eh, eh, eh, eh
 
@@ -750,7 +750,7 @@ Eze on the, the beat
 Artist: Bad Bunny
 Album:  X 100PRE
 Song:   Si Estuviesemos Juntos
-Typed by: AZ Lyrics
+ 
 
 Yeh-yeh-yeh-yeh-yeh
 Yeh-yeh-yeh-yeh
@@ -806,7 +806,7 @@ Yeh
 Artist: Bad Bunny
 Album:  X 100PRE
 Song:   Solo De Mi
-Typed by: AZ Lyrics
+ 
 
 No me vuelvas a decir "Bebé" (¡No!)
 Yo no soy tuyo ni de nadie, yo soy sólo de mí
